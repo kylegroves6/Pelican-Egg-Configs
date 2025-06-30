@@ -1,0 +1,106 @@
+{
+    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PANEL",
+    "meta": {
+        "version": "PLCN_v1",
+        "update_url": null
+    },
+    "exported_at": "2025-06-30T23:05:40+00:00",
+    "name": "Velocity (Improved) + Plugins",
+    "author": "kylegroves6@gmail.com",
+    "uuid": "b32cf142-2a3f-4d33-8942-f4a98157c769",
+    "description": "PRECONFIGURED:\nAutomatically checks private repo for new server plugins\n\nA modern, high-performance Minecraft proxy. This egg includes a reliable installer that pre-configures server files for a secure and stable first launch.",
+    "tags": [
+        "minecraft",
+        "proxy"
+    ],
+    "features": [
+        "auto_plugins"
+    ],
+    "docker_images": {
+        "Java 21": "ghcr.io\/parkervcp\/yolks:java_21",
+        "Java 17": "ghcr.io\/parkervcp\/yolks:java_17"
+    },
+    "file_denylist": [],
+    "startup": "java -Xms128M -XX:MaxRAMPercentage=95.0 -XX:+AlwaysPreTouch -XX:+ParallelRefProcEnabled -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1HeapRegionSize=4M -XX:MaxInlineLevel=15 -jar {{SERVER_JARFILE}}",
+    "config": {
+        "files": "{\r\n    \"velocity.toml\": {\r\n        \"parser\": \"toml\",\r\n        \"find\": {\r\n            \"bind\": \"0.0.0.0:{{server.allocations.default.port}}\"\r\n        }\r\n    }\r\n}",
+        "startup": "{\r\n    \"done\": \")!\"\r\n}",
+        "logs": "{}",
+        "stop": "shutdown"
+    },
+    "scripts": {
+        "installation": {
+            "script": "#!\/bin\/ash\r\n# Velocity Installation Script - Improved Version\r\n# Combines robust API logic with pre-creation of essential config files.\r\nPROJECT=velocity\r\n\r\necho -e 'Starting installation of ${PROJECT}...'\r\n\r\n# Determine version to download\r\nif [ -z \"${VELOCITY_VERSION}\" ] || [ \"${VELOCITY_VERSION}\" == \"latest\" ]; then\r\n    DL_VERSION=$(curl -sSL https:\/\/api.papermc.io\/v2\/projects\/${PROJECT} | jq -r '.versions[-1]')\r\n    echo -e \"'latest' version specified, using ${DL_VERSION}.\"\r\nelse\r\n    DL_VERSION=${VELOCITY_VERSION}\r\n    echo -e \"Using specified version: ${DL_VERSION}.\"\r\nfi\r\n\r\n# Get the latest build for the selected version\r\nLATEST_BUILD=$(curl -sSL https:\/\/api.papermc.io\/v2\/projects\/${PROJECT}\/versions\/${DL_VERSION} | jq -r '.builds[-1]')\r\nJAR_NAME=${PROJECT}-${DL_VERSION}-${LATEST_BUILD}.jar\r\nDOWNLOAD_URL=https:\/\/api.papermc.io\/v2\/projects\/${PROJECT}\/versions\/${DL_VERSION}\/builds\/${LATEST_BUILD}\/downloads\/${JAR_NAME}\r\n\r\ncd \/mnt\/server\r\n\r\necho -e \"Downloading from URL: ${DOWNLOAD_URL}\"\r\ncurl -o ${SERVER_JARFILE} ${DOWNLOAD_URL}\r\n\r\n# --- Improvement 1: Download a known-good config template --- \r\nif [ ! -f velocity.toml ]; then\r\n    echo -e 'No velocity.toml found. Downloading template...'\r\n    curl -o velocity.toml https:\/\/raw.githubusercontent.com\/parkervcp\/eggs\/master\/game_eggs\/minecraft\/proxy\/java\/velocity\/velocity.toml\r\nfi\r\n\r\n# --- Improvement 2: Create forwarding secret if it doesn't exist --- \r\nif [ ! -f forwarding.secret ]; then\r\n    echo -e 'No forwarding.secret found. Generating a new one...'\r\n    date +%s | sha256sum | base64 | head -c 16 > forwarding.secret\r\nfi\r\n\r\necho -e '-----------------------------------------'\r\necho -e 'Installation of Velocity is complete.'\r\necho -e 'Starting Plugin Download Checks.'\r\necho -e '-----------------------------------------'\r\n\r\n# --- Step 1: Install Necessary Tools ---\r\napk add --no-cache git\r\n\r\n# --- Step 2: Clone Your Complete Plugin Library ---\r\nTEMP_PLUGIN_DIR=\"\/mnt\/server\/temp_plugins\"\r\nPRIVATE_REPO=\"private-mc-plugins\" # <-- Your private repo name\r\necho \"INFO: Cloning complete plugin library from private repository...\"\r\n# Uses the secure variables you will add to the egg\r\ngit clone https:\/\/${GITHUB_TOKEN}@github.com\/${GITHUB_USER}\/${PRIVATE_REPO}.git ${TEMP_PLUGIN_DIR}\r\n\r\n\r\n# --- Step 3: Copy Plugins to Server ---\r\necho \"INFO: Installing plugins...\"\r\nmkdir -p \/mnt\/server\/plugins\r\n\r\n# Copy server-specific plugins based on the NETWORK_SERVER variable\r\necho \"INFO: Copying plugins for server type: ${NETWORK_SERVER}...\"\r\nif [ -d \"${TEMP_PLUGIN_DIR}\/${NETWORK_SERVER}\" ] && [ -n \"$(ls -A ${TEMP_PLUGIN_DIR}\/${NETWORK_SERVER}\/*.jar 2>\/dev\/null)\" ]; then\r\n    cp ${TEMP_PLUGIN_DIR}\/${NETWORK_SERVER}\/*.jar \/mnt\/server\/plugins\/\r\nfi\r\n\r\n# --- Final Cleanup ---\r\necho \"INFO: Cleaning up temporary files...\"\r\nrm -rf ${TEMP_PLUGIN_DIR}\r\n\r\necho \"SUCCESS: Server and plugin installation is complete.\"",
+            "container": "ghcr.io\/parkervcp\/installers:alpine",
+            "entrypoint": "ash"
+        }
+    },
+    "variables": [
+        {
+            "name": "Server Jar File",
+            "description": "The name of the jarfile to run the server with.",
+            "env_variable": "SERVER_JARFILE",
+            "default_value": "velocity.jar",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": [
+                "required",
+                "regex:\/^([\\w\\d._-]+)(\\.jar)$\/"
+            ],
+            "sort": 1
+        },
+        {
+            "name": "Velocity Version",
+            "description": "The version of Velocity to install. Specify a version (e.g., 3.3.0) or use 'latest' for the newest recommended build. To apply, reinstall the server from the Settings tab.",
+            "env_variable": "VELOCITY_VERSION",
+            "default_value": "latest",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": [
+                "required",
+                "string",
+                "max:20"
+            ],
+            "sort": 2
+        },
+        {
+            "name": "Network Server",
+            "description": "The name of the server on the network. This is used to identify the server for plugin downloads for GitHub",
+            "env_variable": "NETWORK_SERVER",
+            "default_value": "velocity",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": [
+                "required",
+                "string"
+            ],
+            "sort": 3
+        },
+        {
+            "name": "GitHub Access Token",
+            "description": "A private GitHub Personal Access Token (PAT) with 'repo' scope for downloading private assets.",
+            "env_variable": "GITHUB_TOKEN",
+            "default_value": "",
+            "user_viewable": false,
+            "user_editable": true,
+            "rules": [
+                "required",
+                "string"
+            ],
+            "sort": 4
+        },
+        {
+            "name": "GitHub Username",
+            "description": "The Username for the GitHub account that owns the PAT. This is used to identify the user for plugin downloads.",
+            "env_variable": "GITHUB_USER",
+            "default_value": "kylegroves6",
+            "user_viewable": false,
+            "user_editable": true,
+            "rules": [
+                "required",
+                "string"
+            ],
+            "sort": 5
+        }
+    ]
+}
