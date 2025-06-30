@@ -3,11 +3,11 @@
     "Network & Proxy": [
       {
         "name": "ViaVersion",
-        "url": "https://cdn.modrinth.com/data/P1OZGk5p/versions/5wZkGWxe/ViaVersion-5.4.1.jar"
+        "url": "https://www.spigotmc.org/resources/viaversion.19254/download?version=594338"
       },
       {
         "name": "ViaBackwards",
-        "url": "https://cdn.modrinth.com/data/NpvuJQoq/versions/2pOVwa6p/ViaBackwards-5.4.1.jar"
+        "url": "https://www.spigotmc.org/resources/viabackwards.27448/download?version=552391"
       },
       {
         "name": "ProtocolLib",
@@ -67,15 +67,15 @@
       },
       {
         "name": "Chunky",
-        "url": "https://cdn.modrinth.com/data/fALzjamp/versions/P3y2MXnd/Chunky-Bukkit-1.4.40.jar"
+        "url": "https://www.spigotmc.org/resources/chunky.81534/download?version=594423"
       },
       {
         "name": "Multiverse-Core",
-        "url": "https://cdn.modrinth.com/data/3wmN97b8/versions/yb4cdN2X/multiverse-core-5.0.2.jar"
+        "url": "https://www.spigotmc.org/resources/multiverse-core.390/download?version=592273"
       },
       {
         "name": "Multiverse-Portals",
-        "url": "https://cdn.modrinth.com/data/8VMk6P0I/versions/EkQ7Vwln/multiverse-portals-5.0.3.jar"
+        "url": "https://dev.bukkit.org/projects/multiverse-portals/files/6638947/download"
       }
     ],
     "Player Experience": [
@@ -96,7 +96,7 @@
     ],
     "API & Dependencies": [
       {
-        "name": "PlaceholderAPI",
+        "name": "PlaceholderAPI-2.11.6",
         "url": "https://www.spigotmc.org/resources/placeholderapi.6245/download?version=541946"
       }
     ]
@@ -106,15 +106,15 @@
       "Economy & Monetization": [
         {
           "name": "QuickShop-Hikari",
-          "url": "https://cdn.modrinth.com/data/ijC5dDkD/versions/Qrp1IEXz/QuickShop-Hikari-6.2.0.9-RELEASE-1.jar"
+          "url": "https://www.spigotmc.org/resources/quickshop-hikari-a-powerful-user-friendly-and-reliable-chestshop-plugin-1-20-1-21.100125/download?version=583229"
         },
         {
           "name": "AxVaults",
-          "url": "https://cdn.modrinth.com/data/xquVwxlu/versions/HvQblIsm/AxVaults-2.9.0.jar"
+          "url": "https://www.spigotmc.org/resources/axvaults-the-ultimate-vaults-plugin.114764/download?version=594640"
         },
         {
           "name": "AxTrade",
-          "url": "https://cdn.modrinth.com/data/nZSk44a8/versions/zaQLT2h5/AxTrade-1.18.0.jar"
+          "url": "https://www.spigotmc.org/resources/axtrade-the-ultimate-trade-plugin.116826/download?version=594639"
         }
       ],
       "Gameplay Mechanics": [
