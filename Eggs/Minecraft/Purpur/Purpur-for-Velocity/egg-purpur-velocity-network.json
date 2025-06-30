@@ -1,0 +1,126 @@
+{
+    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PANEL",
+    "meta": {
+        "version": "PLCN_v1",
+        "update_url": null
+    },
+    "exported_at": "2025-06-30T04:51:22+00:00",
+    "name": "Purpur (for Velocity)* - MC 1.13+ (Only) + Plugins",
+    "author": "kylegroves6@gmail.com",
+    "uuid": "3e3706d8-e6be-4b07-9208-5999b7cf4ff8",
+    "description": "Based on My 'Purpur (for Velocity)* - MC 1.13+ (Only)' Egg\nThis Egg automatically downloads new plugins from my manifest file\n\nSPECIALIZED EGG:\nFor use as a backend server with a Velocity proxy (one with {player-info-forwarding-mode = \"modern\"} in velocity.toml). NOT for standalone use. This egg automatically applies some of the necessary settings for a proxied environment upon server startup.\n--------\n\nAUTOMATIC CHANGES:\n- server.properties: `online-mode` is set to `false`.\n\nMANUAL STEP REQUIRED:\n1. Open the `config\/paper-global.yml` file\n2. You MUST set proxies.velocity.enabled to true \n3. You MUST manually copy the key from your Velocity's `forwarding.secret` file and paste it into this server's `config\/paper-global.yml` file below where you set (STEP 2).",
+    "tags": [
+        "velocity",
+        "preconfigured",
+        "purpur",
+        "minecraft",
+        "MC 1.13+ (ONLY)"
+    ],
+    "features": [
+        "eula",
+        "java_version",
+        "auto_plugins"
+    ],
+    "docker_images": {
+        "Java 21": "ghcr.io\/parkervcp\/yolks:java_21",
+        "Java 17": "ghcr.io\/parkervcp\/yolks:java_17"
+    },
+    "file_denylist": [],
+    "startup": "java --add-modules=jdk.incubator.vector -Xms128M -XX:MaxRAMPercentage=95.0 -XX:+AlwaysPreTouch -XX:+DisableExplicitGC -XX:+ParallelRefProcEnabled -XX:+PerfDisableSharedMem -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1HeapRegionSize=8M -XX:G1HeapWastePercent=5 -XX:G1MaxNewSizePercent=40 -XX:G1MixedGCCountTarget=4 -XX:G1MixedGCLiveThresholdPercent=90 -XX:G1NewSizePercent=30 -XX:G1RSetUpdatingPauseTimePercent=5 -XX:G1ReservePercent=20 -XX:InitiatingHeapOccupancyPercent=15 -XX:MaxGCPauseMillis=200 -XX:MaxTenuringThreshold=1 -XX:SurvivorRatio=32 -Dusing.aikars.flags=https:\/\/mcflags.emc.gs -Daikars.new.flags=true -jar {{SERVER_JARFILE}} nogui",
+    "config": {
+        "files": "{\n  \"server.properties\": {\n    \"parser\": \"properties\",\n    \"find\": {\n      \"online-mode\": \"false\",\n      \"server-ip\": \"0.0.0.0\",\n      \"server-port\": \"{{server.allocations.default.port}}\"\n    }\n  }\n}",
+        "startup": "{\n    \"done\": \")! For help, type \"\n}",
+        "logs": "{}",
+        "stop": "stop"
+    },
+    "scripts": {
+        "installation": {
+            "script": "#!\/bin\/ash\r\n# Purpur Installation Script\r\nPROJECT=purpur\r\n\r\nif [ -n \"${DL_PATH}\" ]; then\r\n\techo -e \"Using supplied download url: ${DL_PATH}\"\r\n\tDOWNLOAD_URL=`eval echo $(echo ${DL_PATH} | sed -e 's\/{{\/${\/g' -e 's\/}}\/}\/g')`\r\nelse\r\n\tVER_EXISTS=`curl -s https:\/\/api.purpurmc.org\/v2\/${PROJECT} | jq -r --arg VERSION $MINECRAFT_VERSION '.versions[] | contains($VERSION)' | grep true`\r\n\tLATEST_VERSION=`curl -s https:\/\/api.purpurmc.org\/v2\/${PROJECT} | jq -r '.versions' | jq -r '.[-1]'`\r\n\r\n\tif [ \"${VER_EXISTS}\" == \"true\" ]; then\r\n\t\techo -e \"Version is valid. Using version ${MINECRAFT_VERSION}\"\r\n\telse\r\n\t\techo -e \"Using the latest ${PROJECT} version\"\r\n\t\tMINECRAFT_VERSION=${LATEST_VERSION}\r\n\tfi\r\n\t\r\n\tBUILD_EXISTS=`curl -s https:\/\/api.purpurmc.org\/v2\/${PROJECT}\/${MINECRAFT_VERSION} | jq -r --arg BUILD ${BUILD_NUMBER} '.builds.all | tostring | contains($BUILD)' | grep true`\r\n\tLATEST_BUILD=`curl -s https:\/\/api.purpurmc.org\/v2\/${PROJECT}\/${MINECRAFT_VERSION} | jq -r '.builds.latest'`\r\n\t\r\n\tif [ \"${BUILD_EXISTS}\" == \"true\" ]; then\r\n\t\techo -e \"Build is valid for version ${MINECRAFT_VERSION}. Using build ${BUILD_NUMBER}\"\r\n\telse\r\n\t\techo -e \"Using the latest ${PROJECT} build for version ${MINECRAFT_VERSION}\"\r\n\t\tBUILD_NUMBER=${LATEST_BUILD}\r\n\tfi\r\n\t\r\n\tJAR_NAME=${PROJECT}-${MINECRAFT_VERSION}-${BUILD_NUMBER}.jar\r\n\tDOWNLOAD_URL=https:\/\/api.purpurmc.org\/v2\/${PROJECT}\/${MINECRAFT_VERSION}\/${BUILD_NUMBER}\/download\r\nfi\r\n\r\ncd \/mnt\/server\r\n\r\necho -e \"Running curl -o ${SERVER_JARFILE} ${DOWNLOAD_URL}\"\r\n\r\ncurl -o ${SERVER_JARFILE} ${DOWNLOAD_URL}\r\n\r\nif [ ! -f server.properties ]; then\r\n    echo -e \"Downloading MC server.properties\"\r\n    curl -o server.properties https:\/\/raw.githubusercontent.com\/kylegroves6\/Pelican-Egg-Configs\/refs\/heads\/main\/Eggs\/Minecraft\/Purpur\/Purpur-for-Velocity\/server.properties\r\nfi",
+            "container": "ghcr.io\/parkervcp\/installers:alpine",
+            "entrypoint": "ash"
+        }
+    },
+    "variables": [
+        {
+            "name": "Build Number",
+            "description": "The build number for the Purpur release. Leave at latest for the recommended build.",
+            "env_variable": "BUILD_NUMBER",
+            "default_value": "latest",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": [
+                "required",
+                "string",
+                "max:20"
+            ],
+            "sort": 1
+        },
+        {
+            "name": "Minecraft Version",
+            "description": "The version of Minecraft to download.",
+            "env_variable": "MINECRAFT_VERSION",
+            "default_value": "latest",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": [
+                "required",
+                "string",
+                "max:20"
+            ],
+            "sort": 2
+        },
+        {
+            "name": "Server Jar File",
+            "description": "The name of the .jar file to run the server with.",
+            "env_variable": "SERVER_JARFILE",
+            "default_value": "server.jar",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": [
+                "required",
+                "string",
+                "regex:\/^([\\w\\d._-]+)(\\.jar)$\/"
+            ],
+            "sort": 3
+        },
+        {
+            "name": "Network Server",
+            "description": "The name of the server on the network. This is used to identify the server for plugin downloads.",
+            "env_variable": "NETWORK_SERVER",
+            "default_value": "survival",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": [
+                "required",
+                "string"
+            ],
+            "sort": 4
+        },
+        {
+            "name": "GitHub Access Token",
+            "description": "A private GitHub Personal Access Token (PAT) with 'repo' scope for downloading private assets.",
+            "env_variable": "GITHUB_TOKEN",
+            "default_value": "",
+            "user_viewable": false,
+            "user_editable": true,
+            "rules": [
+                "required",
+                "string"
+            ],
+            "sort": 5
+        },
+        {
+            "name": "GitHub Username",
+            "description": "The Username for the GitHub account that owns the PAT. This is used to identify the user for plugin downloads.",
+            "env_variable": "GITHUB_USER",
+            "default_value": "kylegroves6",
+            "user_viewable": false,
+            "user_editable": true,
+            "rules": [
+                "required",
+                "string"
+            ],
+            "sort": 6
+        }
+    ]
+}

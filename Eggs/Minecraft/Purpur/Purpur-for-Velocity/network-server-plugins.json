@@ -1,0 +1,143 @@
+{
+  "shared_plugins": {
+    "Network & Proxy": [
+      {
+        "name": "ViaVersion",
+        "url": "https://cdn.modrinth.com/data/P1OZGk5p/versions/5wZkGWxe/ViaVersion-5.4.1.jar"
+      },
+      {
+        "name": "ViaBackwards",
+        "url": "https://cdn.modrinth.com/data/NpvuJQoq/versions/2pOVwa6p/ViaBackwards-5.4.1.jar"
+      },
+      {
+        "name": "ProtocolLib",
+        "url": "https://www.spigotmc.org/resources/protocollib.1997/download?version=562896"
+      },
+      {
+        "name": "HeroChat",
+        "url": "",
+        "source": "private",
+        "note": "Premium Plugin - Install from private source"
+      }
+    ],
+    "Admin & Moderation": [
+      {
+        "name": "LuckPerms",
+        "url": "https://download.luckperms.net/1593/bukkit/loader/LuckPerms-Bukkit-5.5.8.jar"
+      },
+      {
+        "name": "CoreProtect",
+        "url": "",
+        "source": "private",
+        "note": "Self-Compiled Plugin - Install from private source"
+      },
+      {
+        "name": "EssentialsX",
+        "url": "https://github.com/EssentialsX/Essentials/releases/download/2.21.1/EssentialsX-2.21.1.jar"
+      },
+      {
+        "name": "EssentialsXSpawn",
+        "url": "https://github.com/EssentialsX/Essentials/releases/download/2.21.1/EssentialsXSpawn-2.21.1.jar"
+      },
+      {
+        "name": "EssentialsXAntiBuild",
+        "url": "https://github.com/EssentialsX/Essentials/releases/download/2.21.1/EssentialsXAntiBuild-2.21.1.jar"
+      },
+      {
+        "name": "EssentialsXGeo",
+        "url": "https://github.com/EssentialsX/Essentials/releases/download/2.21.1/EssentialsXGeoIP-2.21.1.jar"
+      },
+      {
+        "name": "EssentialsXProtect",
+        "url": "https://github.com/EssentialsX/Essentials/releases/download/2.21.1/EssentialsXProtect-2.21.1.jar"
+      },
+      {
+        "name": "EasyCommandBlocker",
+        "url": "https://www.spigotmc.org/resources/easycommandblocker-spigot-waterfall-velocity-1-8-1-21-6.101752/download?version=594322"
+      }
+    ],
+    "World & Performance": [
+      {
+        "name": "WorldGuard",
+        "url": "https://dev.bukkit.org/projects/worldguard/files/6201343/download"
+      },
+      {
+        "name": "FAWE",
+        "url": "https://ci.athion.net/job/FastAsyncWorldEdit/lastStableBuild/artifact/artifacts/FastAsyncWorldEdit-Paper-2.13.1-SNAPSHOT-1122.jar"
+      },
+      {
+        "name": "Chunky",
+        "url": "https://cdn.modrinth.com/data/fALzjamp/versions/P3y2MXnd/Chunky-Bukkit-1.4.40.jar"
+      },
+      {
+        "name": "Multiverse-Core",
+        "url": "https://cdn.modrinth.com/data/3wmN97b8/versions/yb4cdN2X/multiverse-core-5.0.2.jar"
+      },
+      {
+        "name": "Multiverse-Portals",
+        "url": "https://cdn.modrinth.com/data/8VMk6P0I/versions/EkQ7Vwln/multiverse-portals-5.0.3.jar"
+      }
+    ],
+    "Player Experience": [
+      {
+        "name": "GSit",
+        "url": "https://www.spigotmc.org/resources/gsit-modern-sit-seat-and-chair-lay-and-crawl-plugin-1-16-1-21-6.62325/download?version=594955"
+      },
+      {
+        "name": "InteractiveChat",
+        "url": "https://ci.loohpjames.com/job/InteractiveChat/lastStableBuild/artifact/common/target/InteractiveChat-4.3.0.0.jar"
+      }
+    ],
+    "Economy & Monetization": [
+      {
+        "name": "Vault",
+        "url": "https://www.spigotmc.org/resources/vault.34315/download?version=344916"
+      }
+    ],
+    "API & Dependencies": [
+      {
+        "name": "PlaceholderAPI",
+        "url": "https://www.spigotmc.org/resources/placeholderapi.6245/download?version=541946"
+      }
+    ]
+  },
+  "server_groups": {
+    "survival": {
+      "Economy & Monetization": [
+        {
+          "name": "QuickShop-Hikari",
+          "url": "https://cdn.modrinth.com/data/ijC5dDkD/versions/Qrp1IEXz/QuickShop-Hikari-6.2.0.9-RELEASE-1.jar"
+        },
+        {
+          "name": "AxVaults",
+          "url": "https://cdn.modrinth.com/data/xquVwxlu/versions/HvQblIsm/AxVaults-2.9.0.jar"
+        },
+        {
+          "name": "AxTrade",
+          "url": "https://cdn.modrinth.com/data/nZSk44a8/versions/zaQLT2h5/AxTrade-1.18.0.jar"
+        }
+      ],
+      "Gameplay Mechanics": [
+        {
+          "name": "WildRTP",
+          "url": "https://cdn.modrinth.com/data/5AKhI9Ob/versions/FivlFOmZ/WildRTP-all.jar"
+        },
+        {
+          "name": "GriefPrevention",
+          "url": "https://dev.bukkit.org/projects/grief-prevention/files/5471866/download"
+        }
+      ]
+    },
+    "hub": {
+      "Hub / Network": [
+        {
+          "name": "Akropolis",
+          "url": "https://cdn.modrinth.com/data/TSZZyvNu/versions/mrifJvOh/Akropolis-1.8.1.jar"
+        }
+      ]
+    },
+    "build": {
+      "note": "This group is a placeholder for future build-server-specific plugins."
+    }
+  }
+}
